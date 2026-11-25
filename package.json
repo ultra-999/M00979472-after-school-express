@@ -1,0 +1,26 @@
+{
+  "name": "m00979472-after-school-express",
+  "version": "1.0.0",
+  "description": "CST3144 Express.js REST API for the After School Classes app",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "seed": "node seed.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ultra-999/M00979472-after-school-express.git"
+  },
+  "keywords": [],
+  "author": "M00979472",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/ultra-999/M00979472-after-school-express/issues"
+  },
+  "homepage": "https://github.com/ultra-999/M00979472-after-school-express#readme",
+  "dependencies": {
+    "express": "^5.3.0",
+    "mongodb": "^7.9.1"
+  }
+}
