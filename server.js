@@ -21,3 +21,16 @@ app.get('/', (req, res) => {
 });
 
 app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
+
+
+//CORS (front-end on GitHub Pages calls this server on render.com)
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    if (req.method === 'OPTIONS') return res.sendStatus(204);
+    next();
+  });
+  
+  // Parse JSON request bodies into req.body 
+  app.use(express.json());
