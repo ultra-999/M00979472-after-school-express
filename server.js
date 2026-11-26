@@ -127,6 +127,37 @@ app.put('/lessons/:id', async (req, res) => {
 
 
 
+// Challenge: search across topic, location, price and space (done in the back-end)
+app.get('/search', async (req, res) => {
+  try {
+    const q = (req.query.q || '').trim();
+    if (!q) {
+      return res.json(await db.collection('lesson').find().toArray());
+    }
+    // escape special characters so the text is treated as plain text, not a pattern
+    const pattern = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const textMatch = { $regex: pattern, $options: 'i' };
+    const numberMatch = (field) => ({
+      $expr: { $regexMatch: { input: { $toString: `$${field}` }, regex: pattern, options: 'i' } }
+    });
+
+    const results = await db.collection('lesson').find({
+      $or: [
+        { topic: textMatch },
+        { location: textMatch },
+        numberMatch('price'),
+        numberMatch('space')
+      ]
+    }).toArray();
+    res.json(results);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Search failed' });
+  }
+});
+
+
+
 // Connect to Atlas, then start the server
 const client = new MongoClient(MONGODB_URI);
 client.connect()
