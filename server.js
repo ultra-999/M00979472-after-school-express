@@ -1,6 +1,6 @@
 // CST3144 - Express.js REST API
 const express = require('express');
-const { MongoClient } = require('mongodb');
+const { MongoClient, ObjectId } = require('mongodb');
 const path = require('path');
 
 const PORT = process.env.PORT || 3000;
@@ -97,6 +97,34 @@ app.post('/orders', async (req, res) => {
     res.status(500).json({ error: 'Could not save order' });
   }
 });
+
+
+
+// PUT - update ANY attribute(s) of a lesson (e.g. set space to any number)
+app.put('/lessons/:id', async (req, res) => {
+  try {
+    if (!/^[0-9a-fA-F]{24}$/.test(req.params.id)) {
+      return res.status(400).json({ error: 'Invalid lesson id' });
+    }
+    const changes = { ...req.body };
+    delete changes._id;                      // never overwrite the id
+    if (Object.keys(changes).length === 0) {
+      return res.status(400).json({ error: 'No fields to update' });
+    }
+    const result = await db.collection('lesson').updateOne(
+      { _id: new ObjectId(req.params.id) },
+      { $set: changes }
+    );
+    if (result.matchedCount === 0) {
+      return res.status(404).json({ error: 'Lesson not found' });
+    }
+    res.json({ message: 'Lesson updated', modified: result.modifiedCount });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Could not update lesson' });
+  }
+});
+
 
 
 // Connect to Atlas, then start the server
