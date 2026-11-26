@@ -186,6 +186,38 @@ app.get('/teachers/:id/lessons', async (req, res) => {
 });
 
 
+
+// Challenge: enrolment = number of spaces already purchased for a lesson
+app.get('/enrolment/:lessonid', async (req, res) => {
+  try {
+    const id = req.params.lessonid;
+    if (!/^[0-9a-fA-F]{24}$/.test(id)) {
+      return res.status(400).json({ error: 'Invalid lesson id' });
+    }
+    const lesson = await db.collection('lesson').findOne({ _id: new ObjectId(id) });
+    if (!lesson) {
+      return res.status(404).json({ error: 'Lesson not found' });
+    }
+    const totals = await db.collection('order').aggregate([
+      { $unwind: '$items' },
+      { $match: { 'items.lessonId': id } },
+      { $group: { _id: null, enrolment: { $sum: '$items.spaces' } } }
+    ]).toArray();
+
+    res.json({
+      lessonId: id,
+      topic: lesson.topic,
+      location: lesson.location,
+      enrolment: totals.length ? totals[0].enrolment : 0
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Could not calculate enrolment' });
+  }
+});
+
+
+
 // Connect to Atlas, then start the server
 const client = new MongoClient(MONGODB_URI);
 client.connect()
