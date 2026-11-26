@@ -1,0 +1,77 @@
+[
+  {
+    "_id": {
+      "$oid": "65f0a1b2c3d4e5f6a7b8d001"
+    },
+    "firstName": "Sarah",
+    "lastName": "Johnson",
+    "lessonIds": [
+      {
+        "$oid": "65f0a1b2c3d4e5f6a7b8c901"
+      },
+      {
+        "$oid": "65f0a1b2c3d4e5f6a7b8c907"
+      }
+    ]
+  },
+  {
+    "_id": {
+      "$oid": "65f0a1b2c3d4e5f6a7b8d002"
+    },
+    "firstName": "Omar",
+    "lastName": "Khan",
+    "lessonIds": [
+      {
+        "$oid": "65f0a1b2c3d4e5f6a7b8c902"
+      },
+      {
+        "$oid": "65f0a1b2c3d4e5f6a7b8c908"
+      }
+    ]
+  },
+  {
+    "_id": {
+      "$oid": "65f0a1b2c3d4e5f6a7b8d003"
+    },
+    "firstName": "Priya",
+    "lastName": "Patel",
+    "lessonIds": [
+      {
+        "$oid": "65f0a1b2c3d4e5f6a7b8c903"
+      },
+      {
+        "$oid": "65f0a1b2c3d4e5f6a7b8c910"
+      }
+    ]
+  },
+  {
+    "_id": {
+      "$oid": "65f0a1b2c3d4e5f6a7b8d004"
+    },
+    "firstName": "David",
+    "lastName": "Smith",
+    "lessonIds": [
+      {
+        "$oid": "65f0a1b2c3d4e5f6a7b8c904"
+      },
+      {
+        "$oid": "65f0a1b2c3d4e5f6a7b8c909"
+      }
+    ]
+  },
+  {
+    "_id": {
+      "$oid": "65f0a1b2c3d4e5f6a7b8d005"
+    },
+    "firstName": "Lucy",
+    "lastName": "Brown",
+    "lessonIds": [
+      {
+        "$oid": "65f0a1b2c3d4e5f6a7b8c905"
+      },
+      {
+        "$oid": "65f0a1b2c3d4e5f6a7b8c906"
+      }
+    ]
+  }
+]
