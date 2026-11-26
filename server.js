@@ -1,6 +1,7 @@
 // CST3144 - Express.js REST API
 const express = require('express');
 const { MongoClient } = require('mongodb');
+const path = require('path');
 
 const PORT = process.env.PORT || 3000;
 const MONGODB_URI = process.env.MONGODB_URI;   // never hard-code this
@@ -37,6 +38,15 @@ app.use((req, res, next) => {
 
 // Parse JSON request bodies into req.body
 app.use(express.json());
+
+
+// Middleware 2: static files (lesson images)
+app.use('/images', express.static(path.join(__dirname, 'images')));
+// only reached when express.static did not find the file
+app.use('/images', (req, res) => {
+  res.status(404).json({ error: `Image not found: ${req.path}` });
+});
+
 
 app.get('/', (req, res) => {
   res.json({ message: 'After School API is running' });
