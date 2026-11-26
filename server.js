@@ -42,6 +42,19 @@ app.get('/', (req, res) => {
   res.json({ message: 'After School API is running' });
 });
 
+
+// GET all lessons
+app.get('/lessons', async (req, res) => {
+  try {
+    const lessons = await db.collection('lesson').find().toArray();
+    res.json(lessons);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Could not load lessons' });
+  }
+});
+
+
 // Connect to Atlas, then start the server
 const client = new MongoClient(MONGODB_URI);
 client.connect()
@@ -54,3 +67,5 @@ client.connect()
     console.error('Could not connect to MongoDB Atlas:', err.message);
     process.exit(1);
   });
+
+
