@@ -157,6 +157,34 @@ app.get('/search', async (req, res) => {
 });
 
 
+// Challenge: list all teachers
+app.get('/teachers', async (req, res) => {
+  try {
+    res.json(await db.collection('teacher').find().toArray());
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Could not load teachers' });
+  }
+});
+
+// Challenge: all lessons taught by one teacher
+app.get('/teachers/:id/lessons', async (req, res) => {
+  try {
+    if (!/^[0-9a-fA-F]{24}$/.test(req.params.id)) {
+      return res.status(400).json({ error: 'Invalid teacher id' });
+    }
+    const teacher = await db.collection('teacher').findOne({ _id: new ObjectId(req.params.id) });
+    if (!teacher) {
+      return res.status(404).json({ error: 'Teacher not found' });
+    }
+    const lessons = await db.collection('lesson').find({ _id: { $in: teacher.lessonIds } }).toArray();
+    res.json(lessons);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Could not load teacher lessons' });
+  }
+});
+
 
 // Connect to Atlas, then start the server
 const client = new MongoClient(MONGODB_URI);
